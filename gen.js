@@ -135,7 +135,9 @@ const writeMatches = (matches, tournamentType) => {
     });
 };
 
-const gen = ([tournamentType = '', groupSize = 5, minSize = 1]) => {
+const gen = ([tournamentType = '', groupSize, minSize]) => {
+    groupSize = groupSize ? parseInt(groupSize) : 3;
+    minSize = minSize ? parseInt(minSize) : 1;
 
     const fileMap = {
         'foozball_singles': FOOZBALL_SINGLES_PARTICIPANTS,
