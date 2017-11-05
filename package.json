@@ -9,7 +9,7 @@
     "gen": "node index.js gen",
     "update-groups": "node index.js update-groups"
   },
-  "author": "Peter",
+  "author": "Pendar",
   "license": "MIT",
   "dependencies": {
     "csv": "^2.0.0",
