@@ -1,0 +1,5 @@
+side 1 name,side 1 email,side 2 name,side 2 email,winner,# pocketed for player 1,# pocketed for player 2
+foo,foofoo@example.com,Mike,mikey@example.com,Mike,0,0
+foo,foofoo@example.com,JoJo,jo@jj.com,foo,0,0
+Mike,mikey@example.com,Mike,mikey@example.com,JoJo,0,0
+JoJo,jo@jj.com,Mike,mikey@example.com,Mike,0,0

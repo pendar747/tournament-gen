@@ -1,0 +1,19 @@
+h1 Results for #{tournamentType} tournament
+
+each group, index in groups
+    h1 Group #{index}
+    table: 
+        tr
+            th Rank
+            th Name
+            th Email
+            th Points
+            th # Pocketed
+        each person, index in group.slice(1)
+            tr 
+                td= index + 1 
+                td= person.name
+                td= person.email
+                td= person.points
+                td= person.numPocketed
+            

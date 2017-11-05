@@ -8,7 +8,8 @@ const {
     FOOZBALL_DOUBLES_PARTICIPANTS,
     FOOZBALL_SINGLES_PARTICIPANTS,
     PARTICIPANTS_DIR,
-    MATCHES_DIR
+    MATCHES_DIR,
+    GROUPS_DIR
 } = require('./config');
 
 const removeIndex = (i, a) => a.slice(0, i).concat(a.slice(i + 1));
@@ -99,6 +100,43 @@ const csvArrayToString = (matches) => {
 const allMatchesToCSVString = allMatches => allMatches
     .map(groupMatches => csvArrayToString(groupMatchesToCSVArray(groupMatches)));
 
+
+const makeBasePath = (rootPath, tournamentType) => {
+    const basePath = path.resolve(path.join(rootPath, tournamentType));
+    if (!fs.existsSync(basePath)) {
+        fs.mkdir(basePath);
+    }
+    return basePath;
+}
+
+const writeGroups = (groups, tournamentType) => {
+    const groupToCSV = (group) => group.map(
+        ({ name, email }) => [name, email]
+    );
+    groups.forEach((group, i) => {
+        const header = ['name', 'email'];
+        const body = groupToCSV(group);
+        const groupCSV = [header, ...body].join('\n');
+
+        const basePath = makeBasePath(GROUPS_DIR, tournamentType);
+        
+        const filePath = path.join(basePath, `group_${i}.csv`);
+        fs.writeFile(filePath, groupCSV);
+        console.info('Wrote data for group', i, 'in', filePath);
+    });
+};
+
+const writeMatches = (matches, tournamentType) => {
+    const csvMatches = allMatchesToCSVString(matches);
+    const basePath = makeBasePath(MATCHES_DIR, tournamentType);
+
+    csvMatches.forEach((groupStage, i) => {
+        const filePath = path.join(basePath, `group_${i + 1}.csv`);
+        fs.writeFileSync(filePath, groupStage);
+        console.info('Group', i, 'matches written to', filePath);
+    });
+};
+
 const gen = ([tournamentType = '', groupSize = 3, minSize = 1]) => {
 
     const fileMap = {
@@ -128,23 +166,13 @@ const gen = ([tournamentType = '', groupSize = 3, minSize = 1]) => {
 
     const groups = createGroups(people, groupSize, minSize);
 
+    writeGroups(groups, tournamentType);
+
     console.log('Groups are', groups);
 
     const matches = makeMatchesForAll(groups);
 
-    const csvMatches = allMatchesToCSVString(matches);
-
-    const basePath = path.join(MATCHES_DIR, tournamentType);
-
-    if (!fs.existsSync(basePath)) {
-        fs.mkdir(basePath);
-    }
-
-    csvMatches.forEach((groupStage, i) => {
-        const filePath = path.join(basePath, `group_${i + 1}.csv`);
-        fs.writeFileSync(filePath, groupStage);
-        console.info('Group', i, 'matches written to', filePath);
-    });
+    writeMatches(matches, tournamentType);
 }
 
 module.exports = gen;
