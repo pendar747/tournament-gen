@@ -12,8 +12,6 @@ const {
     GROUPS_DIR
 } = require('./config');
 
-const removeIndex = (i, a) => a.slice(0, i).concat(a.slice(i + 1));
-
 const readParticipants = (relative) => {
     const filePath = fs.readFileSync(
         path.resolve(relative)
@@ -69,7 +67,7 @@ const makeMatches = (group) => {
         .map((otherPerson) => [person, otherPerson]);
 
     return groupClone.reduce((matches, person, i) => {
-        groupClone = removeIndex(i, groupClone);
+        _.pullAt(groupClone, i);
         return [...matches, ...makeMatchesForPerson(person, i)];
     }, []);
 };
