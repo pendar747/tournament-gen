@@ -10,6 +10,9 @@ const POINT_PER_WIN = 3;
 const MATCHES_DIR = path.join(OUTPUT_DIR, 'matches');
 const GROUPS_DIR = path.join(OUTPUT_DIR, 'groups');
 
+const RESULTS_TEMPLATE = './result.pug';
+const TABLES_DIR = path.join(OUTPUT_DIR, 'tables');
+
 module.exports = {
     POOL_PARTICIPANTS,
     FOOZBALL_DOUBLES_PARTICIPANTS,
@@ -18,5 +21,7 @@ module.exports = {
     MATCHES_DIR,
     GROUPS_DIR,
     OUTPUT_DIR,
-    POINT_PER_WIN
+    POINT_PER_WIN,
+    RESULTS_TEMPLATE,
+    TABLES_DIR
 };

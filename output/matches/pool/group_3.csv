@@ -1,3 +1,22 @@
 side 1 name,side 1 email,side 2 name,side 2 email,winner,# pocketed for player 1,# pocketed for player 2
-Jake,jake@gmail.com,miles,milton@example.com,Jake,10,2
-miles,milton@example.com,miles,milton@example.com,miles,1,3
+Chingiz,jo@jj.com,bahram,barabr@example.com,,0,0
+Chingiz,jo@jj.com,loly,milton@example.com,,0,0
+Chingiz,jo@jj.com,barabr,barabr@example.com,,0,0
+Chingiz,jo@jj.com,foo,foofoo@example.com,,0,0
+Chingiz,jo@jj.com,miles,milton@example.com,,0,0
+bahram,barabr@example.com,bahram,barabr@example.com,,0,0
+bahram,barabr@example.com,barabr,barabr@example.com,,0,0
+bahram,barabr@example.com,foo,foofoo@example.com,,0,0
+bahram,barabr@example.com,miles,milton@example.com,,0,0
+loly,milton@example.com,bahram,barabr@example.com,,0,0
+loly,milton@example.com,barabr,barabr@example.com,,0,0
+loly,milton@example.com,miles,milton@example.com,,0,0
+barabr,barabr@example.com,bahram,barabr@example.com,,0,0
+barabr,barabr@example.com,barabr,barabr@example.com,,0,0
+barabr,barabr@example.com,miles,milton@example.com,,0,0
+foo,foofoo@example.com,bahram,barabr@example.com,,0,0
+foo,foofoo@example.com,barabr,barabr@example.com,,0,0
+foo,foofoo@example.com,miles,milton@example.com,,0,0
+miles,milton@example.com,bahram,barabr@example.com,,0,0
+miles,milton@example.com,barabr,barabr@example.com,,0,0
+miles,milton@example.com,miles,milton@example.com,,0,0

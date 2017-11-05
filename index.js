@@ -24,7 +24,7 @@ const main = () => {
             gen(cliArgs.slice(1));
             break;
         case 'update-groups':
-            updateGroups();
+            updateGroups('pool');
             break;
         default:
             console.info(usage(cliArgs));

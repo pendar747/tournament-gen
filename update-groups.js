@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
 const parseCSVSync = require('csv-parse/lib/sync');
+const pug = require('pug');
 
 const {
     POOL_PARTICIPANTS,
@@ -10,7 +11,9 @@ const {
     PARTICIPANTS_DIR,
     MATCHES_DIR,
     GROUPS_DIR,
-    POINT_PER_WIN
+    POINT_PER_WIN,
+    RESULTS_TEMPLATE,
+    TABLES_DIR
 } = require('./config');
 
 const readGroups = (dirPath) => {
@@ -91,10 +94,23 @@ const rankAndGroup = (groups, allMatches) => {
         }
         return group.map(addData).sort(rank);
     });
+};
+
+const renderResultsAndWrite = (rankedGroups, tournamentType) => {
+    const render = pug.compileFile(RESULTS_TEMPLATE, { pretty: true });
+    const output = render({
+        groups: rankedGroups,
+        tournamentType: 'Pool'
+    });
+    if (!fs.existsSync(TABLES_DIR)) {
+        fs.mkdir(TABLES_DIR);
+    }
+    const filePath = path.join(TABLES_DIR, `${tournamentType}_tables.html`);
+    fs.writeFileSync(filePath, output);
 }
 
-updateGroups = () => {
-    const matchesDir = path.join(MATCHES_DIR, 'pool');
+updateGroups = (tournamentType) => {
+    const matchesDir = path.join(MATCHES_DIR, tournamentType);
 
     console.info('Reading matches from', matchesDir);
 
@@ -102,7 +118,7 @@ updateGroups = () => {
 
     console.log('All read matches are', allMatches);
 
-    const groupsDir = path.join(GROUPS_DIR, 'pool');
+    const groupsDir = path.join(GROUPS_DIR, tournamentType);
     
     console.info('Reading groups from', groupsDir);
 
@@ -113,6 +129,8 @@ updateGroups = () => {
     const rankedGroups = rankAndGroup(groups, allMatches);
 
     console.info('rankedGroups', rankedGroups);
+
+    renderResultsAndWrite(rankedGroups, tournamentType);
 }
 
 module.exports = updateGroups;
