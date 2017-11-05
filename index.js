@@ -11,8 +11,7 @@ const MATCHES_DIR = './matches';
 
 const removeIndex = (i, a) => a.slice(0, i).concat(a.slice(i + 1));
 
-const readParticipants = (fileName) => {
-    const relative = path.join(PARTICIPANTS_DIR, fileName)
+const readParticipants = (relative) => {
     const filePath = fs.readFileSync(
         path.resolve(relative)
     );
@@ -84,7 +83,8 @@ const groupMatchesToCSVArray = (matches) => {
         'side 2 name', 
         'side 2 email',
         'winner',
-        '# pocketed'
+        '# pocketed for player 1',
+        '# pocketed for player 2',
     ];
     return [head, ...body];
 }
@@ -97,29 +97,108 @@ const csvArrayToString = (matches) => {
 const allMatchesToCSVString = allMatches => allMatches
     .map(groupMatches => csvArrayToString(groupMatchesToCSVArray(groupMatches)));
 
-const init = () => {
-    const people = readParticipants(POOL_PARTICIPANTS);
+const readGroupMatches = () => {
+    const groupFiles = fs.readdirSync(MATCHES_DIR);
+    const mapCSVArray = ([name1, email1, name2, email2, winner, numPocketed1, numPocketed2]) => {
+        return [
+            {
+                name: name1,
+                email: email1,
+                winner: winner === name1,
+                pocketed: numPocketed1
+            },
+            {
+                name: name2,
+                email: email2,
+                winner: winner === name2,
+                pocketed: numPocketed2
+            }
+        ]
+    }
+    return groupFiles.map(filename => {
+        const raw = fs.readFileSync(filename);
+        const flat = parseCSVSync(raw);
+        return flat.slice(0).map()
+    });
+}
+
+const gen = ([tournamentType = '', groupSize = 3, minSize = 1]) => {
+
+    const fileMap = {
+        'foozball_singles': FOOZBALL_SINGLES_PARTICIPANTS,
+        'foozball_doubles': FOOZBALL_DOUBLES_PARTICIPANTS,
+        'pool': POOL_PARTICIPANTS
+    };
+
+    const filePath = fileMap[tournamentType.toLowerCase()];
+
+    if(!filePath) {
+        console.error(
+            'Please choose one of', Object.keys(fileMap), 'tournament types');
+        process.exit(1);
+    }
+
+    const relative = path.join(PARTICIPANTS_DIR, filePath);
+    const people = readParticipants(relative);
+
+    if (!people.length) {
+        console.error('No participants are recorded for ', tournamentType);
+        console.error('Reading file', relative);
+        process.exit(1);
+    }
 
     console.log('People are', people);
 
-    const groups = createGroups(people, 3, 1);
+    const groups = createGroups(people, groupSize, minSize);
 
     console.log('Groups are', groups);
 
     const matches = makeMatchesForAll(groups);
 
-    console.log('Matches are', JSON.stringify(matches, null, 2));
-
-    
     const csvMatches = allMatchesToCSVString(matches);
 
-    console.log('csv matches', csvMatches);
+    const basePath = path.join(MATCHES_DIR, tournamentType);
+
+    if (!fs.existsSync(basePath)) {
+        fs.mkdir(basePath);
+    }
 
     csvMatches.forEach((groupStage, i) => {
-        const filePath = path.join(MATCHES_DIR, `group_${i + 1}.csv`);
+        const filePath = path.join(basePath, `group_${i + 1}.csv`);
         fs.writeFileSync(filePath, groupStage);
+        console.info('Group', i, 'matches written to', filePath);
     });
-
 }
 
-init();
+updateGroups = () => {
+
+};
+
+const main = () => {
+
+    const cliArgs = process.argv.slice(2);
+
+    const usage = args => [
+        `Unknown cli args ${args.join(' ')}`,
+        'Usage:',
+        '',
+        '    npm run gen <tournament-type> <group-size=3> <min-size=1> # Generates the groups and matches for the given tournament type',
+        '    npm run update-groups         # Updates all group scores by reading the group match csv files',
+        ''
+    ].join('\n'); 
+
+    switch (cliArgs[0]) {
+        case 'gen':
+            gen(cliArgs.slice(1));
+            break;
+        case 'update-groups':
+            updateGroups();
+            break;
+        default:
+            console.info(usage(cliArgs));
+            process.exit(1);
+            break;
+    }
+};
+
+return main();
