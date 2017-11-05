@@ -1,10 +1,10 @@
 side 1 name,side 1 email,side 2 name,side 2 email,winner,# pocketed for player 1,# pocketed for player 2
-bahram,barabr@example.com,yoyo,jim.morison@jj.com,,0,0
-bahram,barabr@example.com,Miley,mikey@example.com,,0,0
-bahram,barabr@example.com,Jim,jim.morison@jj.com,,0,0
-bahram,barabr@example.com,barabr,barabr@example.com,,0,0
-Miley,mikey@example.com,yoyo,jim.morison@jj.com,,0,0
-Miley,mikey@example.com,Jim,jim.morison@jj.com,,0,0
-Miley,mikey@example.com,barabr,barabr@example.com,,0,0
-barabr,barabr@example.com,yoyo,jim.morison@jj.com,,0,0
-barabr,barabr@example.com,Jim,jim.morison@jj.com,,0,0
+Jim,jim.morison@jj.com,miles,milton@example.com,,0,0
+Jim,jim.morison@jj.com,Mike,mikey@example.com,,0,0
+Jim,jim.morison@jj.com,Chris,jake@gmail.com,,0,0
+Jim,jim.morison@jj.com,Janka,foofoo@example.com,,0,0
+Mike,mikey@example.com,miles,milton@example.com,,0,0
+Mike,mikey@example.com,Chris,jake@gmail.com,,0,0
+Mike,mikey@example.com,Janka,foofoo@example.com,,0,0
+Janka,foofoo@example.com,miles,milton@example.com,,0,0
+Janka,foofoo@example.com,Chris,jake@gmail.com,,0,0

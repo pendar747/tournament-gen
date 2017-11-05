@@ -55,7 +55,7 @@ const readGroupMatches = (dirPath) => {
         const filePath = path.join(dirPath, filename);
         const raw = fs.readFileSync(filePath, { encoding: 'utf8' });
         const flat = parseCSVSync(raw);
-        return flat.slice(0).map(mapCSVArray);
+        return flat.slice(1).map(mapCSVArray);
     });
 }
 
