@@ -29,10 +29,12 @@ const createGroups = (people, nominalSize, minSize = 2) => {
     let lastGroupSize = size % nominalSize;
     let numGroups = Math.ceil(size / nominalSize);
 
-    if (lastGroupSize <= minSize) {
+    if (lastGroupSize !== 0 && lastGroupSize <= minSize) {
         lastGroupSize = nominalSize + lastGroupSize;
         numGroups -= 1;
     }
+
+    lastGroupSize = lastGroupSize === 0 ? nominalSize : lastGroupSize;
 
     let leftPeople = people;
     
